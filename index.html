@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Hometown Hero Banner Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --ground: #F2F4F8;
+    --surface: #FFFFFF;
+    --surface-2: #E9EDF4;
+    --ink: #1B2547;
+    --muted: #5B6482;
+    --line: #D7DCE7;
+    --red: #B3303A;
+    --red-soft: #F6DCDE;
+    --navy: #24366E;
+    --gold: #A97C1F;
+    --gold-soft: #F4E7C7;
+    --ok: #2E7D4F;
+    --focus: #2F6FE0;
+    --display: "Cinzel", "Trajan Pro", Georgia, serif;
+    --body: "Source Sans 3", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #0E1322; --surface: #161D32; --surface-2: #1E2742; --ink: #E8ECF6; --muted: #9AA3BF;
+      --line: #2A3352; --red: #E2676F; --red-soft: #3A1D25; --navy: #93A8F0; --gold: #D9B25E;
+      --gold-soft: #3A3018; --ok: #6BC28E; --focus: #7FA6FF;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #0E1322; --surface: #161D32; --surface-2: #1E2742; --ink: #E8ECF6; --muted: #9AA3BF;
+    --line: #2A3352; --red: #E2676F; --red-soft: #3A1D25; --navy: #93A8F0; --gold: #D9B25E;
+    --gold-soft: #3A3018; --ok: #6BC28E; --focus: #7FA6FF;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--ground); color: var(--ink); font: 15px/1.45 var(--body); }
+  .wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; }
+
+  header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; }
+  .eyebrow { font: 600 12px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin: 0 0 8px; }
+  h1 { font: 700 clamp(26px, 4vw, 38px)/1.1 var(--display); letter-spacing: .02em; margin: 0; text-wrap: balance; }
+  .sub { color: var(--muted); margin: 8px 0 0; max-width: 62ch; }
+  .save-state { font-size: 13px; color: var(--muted); min-height: 1.4em; }
+  .save-state.ok { color: var(--ok); }
+  .save-state.err { color: var(--red); }
+
+  .tally { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 24px 0 14px; padding: 14px 0; border-block: 1px solid var(--line); }
+  .tally div { display: flex; align-items: baseline; gap: 8px; }
+  .tally b { font: 600 24px/1 var(--body); font-variant-numeric: tabular-nums; }
+  .tally span { color: var(--muted); font-size: 13px; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .filters button {
+    font: 600 13px var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 13px; cursor: pointer;
+  }
+  .filters button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .filters button:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
+    outline: 2px solid var(--focus); outline-offset: 2px;
+  }
+
+  /* Table: a CSS grid so it can stack on phones */
+  .sheet { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: clip; }
+  .row {
+    display: grid; gap: 14px 18px; padding: 16px 18px; border-top: 1px solid var(--line);
+    grid-template-columns: 52px minmax(170px, 1.15fr) minmax(200px, 1.35fr) minmax(170px, 1.1fr) 150px minmax(180px, 1.3fr);
+    align-items: start;
+  }
+  .row.head { border-top: 0; background: var(--surface-2); padding-block: 10px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; }
+  .row.head div { font: 700 11px/1.2 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .row:not(.head):hover { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  .num { font: 700 20px/1 var(--display); color: var(--navy); font-variant-numeric: tabular-nums; }
+  .num small { display: block; font: 600 10px/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--gold); margin-top: 6px; }
+
+  .addr { font-weight: 600; }
+  .area { color: var(--muted); font-size: 13px; }
+  .landmark { margin-top: 8px; }
+  .landmark textarea { min-height: 0; font-size: 13px; padding: 5px 7px; }
+  .landmark textarea::placeholder { color: var(--muted); opacity: .8; }
+  .landmark .ro { font-size: 13px; color: var(--ink); }
+  .pin { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--red); text-decoration: none; }
+  .pin:hover { text-decoration: underline; }
+  .pin svg { width: 14px; height: 14px; flex: none; }
+
+  .banners { display: flex; flex-direction: column; gap: 6px; }
+  .banner { display: flex; align-items: center; gap: 9px; }
+  .star { width: 16px; height: 16px; flex: none; }
+  .star.blue { fill: var(--navy); }
+  .star.gold { fill: var(--gold); }
+  .banner .who { font-weight: 600; }
+  .banner .branch { color: var(--muted); font-size: 13px; }
+  .unsure { font: 700 10px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--red); background: var(--red-soft); border-radius: 4px; padding: 3px 5px; }
+  .none { color: var(--muted); font-style: italic; font-size: 14px; }
+  .linkbtn { font: 600 12px var(--body); color: var(--muted); background: none; border: 0; padding: 0; margin-top: 6px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; align-self: flex-start; }
+  .linkbtn:hover { color: var(--ink); }
+
+  .thumbs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .thumb { position: relative; width: 58px; height: 58px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); padding: 0; background: var(--surface-2); cursor: zoom-in; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb .x {
+    position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; border: 0;
+    background: rgba(0,0,0,.65); color: #fff; font: 700 12px/18px var(--body); cursor: pointer; display: none;
+  }
+  .row.editing-photos .thumb .x { display: block; }
+  .addphoto { width: 58px; height: 58px; border-radius: 6px; border: 1.5px dashed var(--line); background: none; color: var(--muted); font: 600 22px var(--body); cursor: pointer; }
+  .addphoto:hover { border-color: var(--muted); color: var(--ink); }
+
+  label.f, span.f { display: block; font: 600 11px/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .dates { display: flex; flex-direction: column; gap: 10px; }
+  input[type="date"], textarea {
+    width: 100%; font: 14px/1.4 var(--body); color: var(--ink); background: var(--ground);
+    border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px;
+  }
+  input[type="date"] { font-variant-numeric: tabular-nums; }
+  textarea { resize: vertical; min-height: 64px; }
+  textarea.names { min-height: 74px; font-size: 13px; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .ro { white-space: pre-wrap; font-size: 14px; }
+
+  .empty { padding: 40px 18px; text-align: center; color: var(--muted); }
+
+  /* Lightbox */
+  .lightbox { position: fixed; inset: 0; z-index: 20; background: rgba(8, 11, 22, .9); display: grid; grid-template-rows: auto 1fr auto auto; gap: 6px; padding: max(14px, env(safe-area-inset-top, 0px)) 14px max(14px, env(safe-area-inset-bottom, 0px)); }
+  .lightbox .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: #E8ECF6; }
+  .lightbox .bar button, .lightbox .nav button { background: rgba(255,255,255,.12); color: #fff; border: 0; border-radius: 6px; padding: 7px 12px; font: 600 14px var(--body); cursor: pointer; }
+  .lightbox .stage { display: grid; place-items: center; min-height: 0; padding: 10px 0; overflow: hidden; touch-action: none; cursor: zoom-in; }
+  .lightbox .stage.zoomed { cursor: grab; }
+  .lightbox .stage.dragging { cursor: grabbing; }
+  .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; transform-origin: 0 0; user-select: none; -webkit-user-drag: none; will-change: transform; }
+  .lightbox .zoomctl { display: inline-flex; gap: 6px; align-items: center; }
+  .lightbox .zoomhint { font-size: 12px; color: #A9B3CF; }
+  @media (prefers-reduced-motion: no-preference) { .lightbox img.animate { transition: transform .18s ease-out; } }
+  .lightbox .nav { display: flex; justify-content: center; gap: 10px; }
+  .lightbox button:disabled { opacity: .35; cursor: default; }
+
+  @media (max-width: 960px) {
+    .row.head { display: none; }
+    .row { grid-template-columns: 44px 1fr; gap: 12px 14px; }
+    .row > .cell-loc { grid-column: 2; }
+    .row > .cell-ban, .row > .cell-pho, .row > .cell-dat, .row > .cell-not { grid-column: 1 / -1; }
+    .cell-dat .dates { flex-direction: row; flex-wrap: wrap; }
+    .cell-dat .dates > div { flex: 1 1 140px; }
+    .mlabel { display: block !important; }
+  }
+  .mlabel { display: none; font: 700 11px/1.2 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  @media (prefers-reduced-motion: no-preference) { .save-state { transition: color .2s; } }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Rim of the World · Blue Star Moms</p>
+      <h1>Hometown Hero Banners</h1>
+      <p class="sub">One row per pole from the “Top town banners” map guide, with the names on each banner and photos from the August 8–9 survey. Read-only copy, last updated October 7, 2026.</p>
+    </div>
+    <div class="save-state" id="saveState"></div>
+  </header>
+
+  <div class="tally" id="tally" aria-label="Summary"></div>
+
+  <div class="filters" role="group" aria-label="Show">
+    <button type="button" data-filter="all" aria-pressed="true">All</button>
+    <button type="button" data-filter="hung">Banners up</button>
+    <button type="button" data-filter="empty">Empty brackets</button>
+    <button type="button" data-filter="nophoto">No photo yet</button>
+    <button type="button" data-filter="check">Needs checking</button>
+    <button type="button" data-filter="noinstall">No install date</button>
+  </div>
+
+  <div class="sheet" role="table" aria-label="Banner locations">
+    <div class="row head" role="row">
+      <div role="columnheader">#</div>
+      <div role="columnheader">Location</div>
+      <div role="columnheader">Names on the banners</div>
+      <div role="columnheader">Photos</div>
+      <div role="columnheader">Dates</div>
+      <div role="columnheader">Notes</div>
+    </div>
+    <div id="rows"><div class="empty">Loading locations…</div></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <div class="bar"><span id="lbCaption"></span><button type="button" id="lbClose">Close</button></div>
+  <div class="stage"><img id="lbImg" alt=""></div>
+  <div class="nav"><button type="button" id="lbPrev">← Previous</button>
+    <span class="zoomctl"><button type="button" id="lbOut" aria-label="Zoom out">−</button><button type="button" id="lbIn" aria-label="Zoom in">+</button></span>
+    <button type="button" id="lbNext">Next →</button></div>
+  <div class="nav zoomhint">Click or tap to zoom · scroll or pinch for more · drag to look around</div>
+</div>
+
+<script>
+(function () {
+  const rowsEl = document.getElementById("rows");
+  const tallyEl = document.getElementById("tally");
+  const saveEl = document.getElementById("saveState");
+  const STAR = '<svg class="star %C" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.4l-6.1 3.5 1.5-6.8L2.2 9.5l6.9-.7z"/></svg>';
+  const PIN = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
+
+  let db = null, assets = null, canWrite = false;
+  let docs = [];            // [{id, data}]
+  let filter = "all";
+  const pending = new Map(); // docId -> {fields, timer}
+  const inflight = new Set();
+  const rawNames = new Map();  // docId -> text being typed in the names editor
+
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const photoSrc = (p) => "photos/" + p.file + ".jpg";
+  const mapUrl = (d) => "https://maps.apple.com/?ll=" + d.lat + "," + d.lng + "&q=" + encodeURIComponent(d.pinLabel || d.address);
+
+  function setSave(text, cls) {
+    saveEl.textContent = text;
+    saveEl.className = "save-state" + (cls ? " " + cls : "");
+  }
+
+  // ---- banner names: one per line, "Name, Branch, star" ----
+  function bannersToText(list) {
+    return (list || []).map((b) => [b.name + (b.unsure ? " ?" : ""), b.branch || "", b.star || "blue"].join(", ")).join("\n");
+  }
+  function textToBanners(text) {
+    return text.split("\n").map((l) => l.trim()).filter(Boolean).map((line) => {
+      const [rawName, branch = "", star = "blue"] = line.split(",").map((s) => s.trim());
+      const unsure = /\?\s*$/.test(rawName);
+      return { name: rawName.replace(/\s*\?\s*$/, ""), branch, star: /gold/i.test(star) ? "gold" : "blue", unsure };
+    });
+  }
+
+  function status(d) {
+    if ((d.banners || []).length) return "hung";
+    if ((d.photos || []).length) return "empty";
+    return "nophoto";
+  }
+  function needsCheck(d) {
+    return (d.banners || []).some((b) => b.unsure) || /confirm|check/i.test(d.notes || "");
+  }
+  function matches(d) {
+    switch (filter) {
+      case "hung": return status(d) === "hung";
+      case "empty": return status(d) === "empty";
+      case "nophoto": return !(d.photos || []).length;
+      case "check": return needsCheck(d);
+      case "noinstall": return !d.installDate;
+      default: return true;
+    }
+  }
+
+  function renderTally() {
+    const all = docs.map((x) => x.data);
+    const names = all.reduce((n, d) => n + (d.banners || []).length, 0);
+    const items = [
+      [all.length, "poles"],
+      [names, "banners named"],
+      [all.filter((d) => status(d) === "empty").length, "empty brackets"],
+      [all.filter((d) => !(d.photos || []).length).length, "no photo yet"],
+      [all.filter((d) => d.installDate).length, "install dates set"],
+    ];
+    tallyEl.innerHTML = items.map(([n, l]) => "<div><b>" + n + "</b><span>" + l + "</span></div>").join("");
+  }
+
+  function rowHTML(id, d) {
+    const banners = (d.banners || []).length
+      ? (d.banners || []).map((b) =>
+          '<div class="banner">' + STAR.replace("%C", b.star === "gold" ? "gold" : "blue") +
+          '<div><div class="who">' + esc(b.name) + (b.unsure ? ' <span class="unsure">check</span>' : "") + "</div>" +
+          '<div class="branch">' + esc(b.branch) + " · " + (b.star === "gold" ? "gold star" : "blue star") + "</div></div></div>"
+        ).join("")
+      : '<div class="none">' + ((d.photos || []).length ? "No banner — empty brackets in photo" : "No banner recorded") + "</div>";
+
+    const thumbs = (d.photos || []).map((p, i) =>
+      '<div class="thumb" role="button" tabindex="0" data-open="' + i + '" aria-label="Open photo ' + esc(p.file) + '">' +
+      '<img loading="lazy" src="' + esc(photoSrc(p)) + '" alt="Photo ' + esc(p.file) + '">' +
+      (canWrite ? '<button type="button" class="x" data-remove="' + i + '" aria-label="Remove photo ' + esc(p.file) + ' from this row">×</button>' : "") +
+      "</div>"
+    ).join("");
+
+    const taken = [...new Set((d.photos || []).map((p) => p.taken).filter(Boolean))].join(", ");
+    const ed = canWrite;
+    return (
+      '<div class="row" role="row" data-id="' + esc(id) + '">' +
+        '<div class="num" role="cell">' + esc(d.num) + (d.inGuide === false ? "<small>not in guide</small>" : "") + "</div>" +
+        '<div class="cell-loc" role="cell"><div class="addr">' + esc(d.address) + '</div><div class="area">' + esc(d.area) + "</div>" +
+          (ed ? '<div class="landmark"><label class="f" for="landmark-' + esc(id) + '">Landmark</label>' +
+                  '<textarea rows="2" id="landmark-' + esc(id) + '" data-field="landmark" placeholder="e.g. across from Jim’s Auto">' + esc(d.landmark || "") + "</textarea></div>"
+              : (d.landmark ? '<div class="landmark"><span class="f">Landmark</span><div class="ro">' + esc(d.landmark) + "</div></div>" : "")) +
+          '<a class="pin" href="' + esc(mapUrl(d)) + '" target="_blank" rel="noopener">' + PIN + "Open pin in Maps</a></div>" +
+        '<div class="cell-ban" role="cell"><span class="mlabel">Names on the banners</span><div class="banners">' + banners + "</div>" +
+          (ed ? '<button type="button" class="linkbtn" data-edit-names>Edit names</button>' +
+                '<div class="names-editor" hidden><textarea class="names" id="names-' + esc(id) + '" aria-label="Names on the banners for #' + esc(d.num) + '">' + esc(rawNames.has(id) ? rawNames.get(id) : bannersToText(d.banners)) + "</textarea>" +
+                '<div class="hint">One per line: Name, Branch, star (blue or gold). End a name with ? to flag it for checking.</div></div>' : "") +
+        "</div>" +
+        '<div class="cell-pho" role="cell"><span class="mlabel">Photos</span><div class="thumbs">' + thumbs +
+          (ed && assets ? '<button type="button" class="addphoto" data-add aria-label="Add photo to #' + esc(d.num) + '">+</button><input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden data-file id="file-' + esc(id) + '">' : "") +
+          "</div>" + (taken ? '<div class="hint">Taken ' + esc(taken) + "</div>" : "") +
+          (ed && (d.photos || []).length ? '<button type="button" class="linkbtn" data-edit-photos>Remove photos…</button>' : "") +
+        "</div>" +
+        '<div class="cell-dat" role="cell"><div class="dates">' +
+          '<div><label class="f" for="order-' + esc(id) + '">Order date</label>' +
+            (ed ? '<input type="date" id="order-' + esc(id) + '" data-field="orderDate" value="' + esc(d.orderDate || "") + '">' : '<div class="ro">' + esc(fmtDate(d.orderDate)) + "</div>") + "</div>" +
+          '<div><label class="f" for="install-' + esc(id) + '">Installed</label>' +
+            (ed ? '<input type="date" id="install-' + esc(id) + '" data-field="installDate" value="' + esc(d.installDate || "") + '">' : '<div class="ro">' + esc(fmtDate(d.installDate)) + "</div>") + "</div>" +
+        "</div></div>" +
+        '<div class="cell-not" role="cell"><span class="mlabel">Notes</span>' +
+          (ed ? '<textarea id="notes-' + esc(id) + '" data-field="notes" aria-label="Notes for #' + esc(d.num) + '">' + esc(d.notes || "") + "</textarea>"
+              : '<div class="ro">' + (esc(d.notes) || '<span class="none">—</span>') + "</div>") +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function fmtDate(s) {
+    if (!s) return "—";
+    const [y, m, d] = s.split("-").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  }
+
+  function render() {
+    renderTally();
+    const active = document.activeElement;
+    const activeId = active && active.id;
+    const sel = active && "selectionStart" in active ? [active.selectionStart, active.selectionEnd] : null;
+    const openEditors = [...rowsEl.querySelectorAll(".names-editor:not([hidden])")].map((e) => e.closest(".row").dataset.id);
+    const photoEditors = [...rowsEl.querySelectorAll(".row.editing-photos")].map((e) => e.dataset.id);
+
+    const visible = docs.filter((x) => matches(x.data));
+    if (!docs.length) {
+      rowsEl.innerHTML = '<div class="empty">No locations yet.</div>';
+      return;
+    }
+    if (!visible.length) {
+      rowsEl.innerHTML = '<div class="empty">No poles match this filter.</div>';
+      return;
+    }
+    rowsEl.innerHTML = visible.map((x) => rowHTML(x.id, x.data)).join("");
+    openEditors.forEach((id) => {
+      const row = rowsEl.querySelector('.row[data-id="' + CSS.escape(id) + '"]');
+      if (row) { row.querySelector(".names-editor").hidden = false; row.querySelector("[data-edit-names]").textContent = "Done"; }
+    });
+    photoEditors.forEach((id) => {
+      const row = rowsEl.querySelector('.row[data-id="' + CSS.escape(id) + '"]');
+      if (row) { row.classList.add("editing-photos"); const b = row.querySelector("[data-edit-photos]"); if (b) b.textContent = "Done removing"; }
+    });
+    if (activeId) {
+      const el = document.getElementById(activeId);
+      if (el) { el.focus(); if (sel && "setSelectionRange" in el) { try { el.setSelectionRange(sel[0], sel[1]); } catch (e) {} } }
+    }
+  }
+
+  // ---- saving: coalesce per row, one write in flight per document ----
+  function queueSave(id, fields) {
+    const entry = pending.get(id) || { fields: {}, timer: null };
+    Object.assign(entry.fields, fields);
+    clearTimeout(entry.timer);
+    entry.timer = setTimeout(() => flush(id), 700);
+    pending.set(id, entry);
+    // Show the change locally right away.
+    const local = docs.find((x) => x.id === id);
+    if (local) local.data = { ...local.data, ...fields };
+    setSave("Saving…");
+  }
+  async function flush(id) {
+    if (inflight.has(id)) { setTimeout(() => flush(id), 300); return; }
+    const entry = pending.get(id);
+    if (!entry) return;
+    pending.delete(id);
+    inflight.add(id);
+    try {
+      await db.collection("locations").doc(id).update(entry.fields);
+      setSave("All changes saved", "ok");
+    } catch (e) {
+      if (e && e.code === "invalid_argument") { canWrite = false; render(); setSave("You can view this sheet but not edit it.", "err"); }
+      else if (e && e.code === "unavailable") { pending.set(id, { fields: entry.fields, timer: setTimeout(() => flush(id), 1500) }); setSave("Reconnecting…"); }
+      else setSave("Couldn’t save that change. Try again in a moment.", "err");
+    } finally {
+      inflight.delete(id);
+    }
+  }
+
+  // ---- events ----
+  rowsEl.addEventListener("input", (ev) => {
+    const row = ev.target.closest(".row"); if (!row) return;
+    const id = row.dataset.id;
+    if (ev.target.dataset.field) queueSave(id, { [ev.target.dataset.field]: ev.target.value });
+    if (ev.target.classList.contains("names")) { rawNames.set(id, ev.target.value); queueSave(id, { banners: textToBanners(ev.target.value) }); }
+  });
+
+  rowsEl.addEventListener("click", async (ev) => {
+    const row = ev.target.closest(".row"); if (!row) return;
+    const id = row.dataset.id;
+    const d = (docs.find((x) => x.id === id) || {}).data || {};
+
+    if (ev.target.closest("[data-remove]")) {
+      ev.stopPropagation();
+      const i = Number(ev.target.closest("[data-remove]").dataset.remove);
+      const photos = (d.photos || []).filter((_, j) => j !== i);
+      queueSave(id, { photos });
+      render();
+      return;
+    }
+    const open = ev.target.closest("[data-open]");
+    if (open && !row.classList.contains("editing-photos")) { openLightbox(d, Number(open.dataset.open)); return; }
+
+    if (ev.target.closest("[data-edit-names]")) {
+      const editor = row.querySelector(".names-editor");
+      editor.hidden = !editor.hidden;
+      ev.target.textContent = editor.hidden ? "Edit names" : "Done";
+      if (!editor.hidden) editor.querySelector("textarea").focus(); else { rawNames.delete(id); render(); }
+      return;
+    }
+    if (ev.target.closest("[data-edit-photos]")) {
+      row.classList.toggle("editing-photos");
+      ev.target.textContent = row.classList.contains("editing-photos") ? "Done removing" : "Remove photos…";
+      return;
+    }
+    if (ev.target.closest("[data-add]")) { row.querySelector("[data-file]").click(); }
+  });
+
+  rowsEl.addEventListener("keydown", (ev) => {
+    const open = ev.target.closest("[data-open]");
+    if (open && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); open.click(); }
+  });
+
+  rowsEl.addEventListener("change", async (ev) => {
+    if (!ev.target.matches("[data-file]")) return;
+    const row = ev.target.closest(".row"); const id = row.dataset.id;
+    const files = [...ev.target.files];
+    if (!files.length || !assets) return;
+    setSave("Uploading " + files.length + " photo" + (files.length > 1 ? "s" : "") + "…");
+    const added = [];
+    for (const f of files) {
+      try {
+        const res = await assets.upload(f);
+        added.push({ id: res.id, file: f.name, taken: f.lastModified ? new Date(f.lastModified).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) : "" });
+      } catch (e) {
+        const why = { too_large: "is over 20 MB", unsupported_type: "isn’t a supported image type", quota_or_state: "couldn’t be stored (storage is full)", rate_limited: "was sent too quickly — try again shortly" }[e && e.code] || "couldn’t be uploaded";
+        setSave(f.name + " " + why + ".", "err");
+      }
+    }
+    if (added.length) {
+      const d = (docs.find((x) => x.id === id) || {}).data || {};
+      queueSave(id, { photos: [...(d.photos || []), ...added] });
+      render();
+    }
+    ev.target.value = "";
+  });
+
+  document.querySelectorAll(".filters button").forEach((b) => b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll(".filters button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    try { localStorage.setItem("hhb-filter", filter); } catch (e) {}
+    render();
+  }));
+  try {
+    const saved = localStorage.getItem("hhb-filter");
+    const btn = saved && document.querySelector('.filters button[data-filter="' + saved + '"]');
+    if (btn) { filter = saved; document.querySelectorAll(".filters button").forEach((x) => x.setAttribute("aria-pressed", String(x === btn))); }
+  } catch (e) {}
+
+  // ---- lightbox ----
+  const lb = document.getElementById("lightbox"), lbImg = document.getElementById("lbImg"), lbCap = document.getElementById("lbCaption");
+  let lbList = [], lbIndex = 0, lbRow = null;
+  function openLightbox(d, i) { lbRow = d; lbList = d.photos || []; lbIndex = i; showLb(); lb.hidden = false; document.getElementById("lbClose").focus(); }
+  function showLb() {
+    const p = lbList[lbIndex]; if (!p) return;
+    resetZoom(false);
+    lbImg.src = photoSrc(p);
+    lbImg.alt = "Photo " + p.file + " at " + (lbRow.address || "");
+    lbCap.textContent = "#" + lbRow.num + " · " + lbRow.address + " · " + p.file + (p.taken ? " · " + p.taken : "") + "  (" + (lbIndex + 1) + " of " + lbList.length + ")";
+    document.getElementById("lbPrev").disabled = lbList.length < 2;
+    document.getElementById("lbNext").disabled = lbList.length < 2;
+  }
+  document.getElementById("lbClose").onclick = () => { lb.hidden = true; };
+  document.getElementById("lbPrev").onclick = () => { lbIndex = (lbIndex - 1 + lbList.length) % lbList.length; showLb(); };
+  document.getElementById("lbNext").onclick = () => { lbIndex = (lbIndex + 1) % lbList.length; showLb(); };
+  lb.addEventListener("click", (e) => { if (e.target === lb) lb.hidden = true; });
+
+  // ---- zoom & pan ----
+  const stage = lb.querySelector(".stage");
+  let z = 1, tx = 0, ty = 0;
+  const MAX = 5;
+  function apply(animate) {
+    lbImg.classList.toggle("animate", !!animate);
+    lbImg.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + z + ")";
+    stage.classList.toggle("zoomed", z > 1.01);
+  }
+  function clamp() {
+    if (z <= 1) { z = 1; tx = 0; ty = 0; return; }
+    const w = lbImg.offsetWidth, h = lbImg.offsetHeight;
+    tx = Math.min(0, Math.max(w - w * z, tx));
+    ty = Math.min(0, Math.max(h - h * z, ty));
+  }
+  function zoomAt(newZ, clientX, clientY, animate) {
+    newZ = Math.min(MAX, Math.max(1, newZ));
+    const r = lbImg.getBoundingClientRect();
+    // point under the cursor, in unscaled image coordinates
+    const px = (clientX - r.left) / z, py = (clientY - r.top) / z;
+    tx += px * z - px * newZ; ty += py * z - py * newZ;
+    z = newZ; clamp(); apply(animate);
+  }
+  function resetZoom(animate) { z = 1; tx = 0; ty = 0; apply(animate); }
+  function center() { const r = lbImg.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; }
+  document.getElementById("lbIn").onclick = () => { const [x, y] = center(); zoomAt(z * 1.6, x, y, true); };
+  document.getElementById("lbOut").onclick = () => { const [x, y] = center(); zoomAt(z / 1.6, x, y, true); };
+
+  stage.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    zoomAt(z * Math.exp(-e.deltaY * 0.0025), e.clientX, e.clientY, false);
+  }, { passive: false });
+
+  const pts = new Map();
+  let moved = false, startDist = 0, startZ = 1, last = null;
+  stage.addEventListener("pointerdown", (e) => {
+    stage.setPointerCapture(e.pointerId);
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    moved = false; last = { x: e.clientX, y: e.clientY };
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; startDist = Math.hypot(a.x - b.x, a.y - b.y); startZ = z; }
+  });
+  stage.addEventListener("pointermove", (e) => {
+    if (!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pts.size === 2) {
+      const [a, b] = [...pts.values()];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (startDist) zoomAt(startZ * d / startDist, (a.x + b.x) / 2, (a.y + b.y) / 2, false);
+      moved = true; return;
+    }
+    const dx = e.clientX - last.x, dy = e.clientY - last.y;
+    if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+    last = { x: e.clientX, y: e.clientY };
+    if (z > 1 && moved) { tx += dx; ty += dy; clamp(); apply(false); stage.classList.add("dragging"); }
+  });
+  function up(e) {
+    const wasSingle = pts.size === 1;
+    pts.delete(e.pointerId); stage.classList.remove("dragging");
+    if (pts.size < 2) startDist = 0;
+    if (e.type === "pointerup" && wasSingle && !moved) {
+      if (e.target !== lbImg && z === 1) { lb.hidden = true; return; }   // tap outside the photo closes
+      if (z > 1.01) resetZoom(true); else zoomAt(2.5, e.clientX, e.clientY, true);
+    }
+  }
+  stage.addEventListener("pointerup", up);
+  stage.addEventListener("pointercancel", up);
+  window.addEventListener("resize", () => { clamp(); apply(false); });
+  document.addEventListener("keydown", (e) => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") lb.hidden = true;
+    if (e.key === "+" || e.key === "=") document.getElementById("lbIn").click();
+    if (e.key === "-") document.getElementById("lbOut").click();
+    if (e.key === "0") resetZoom(true);
+    if (e.key === "ArrowLeft") document.getElementById("lbPrev").click();
+    if (e.key === "ArrowRight") document.getElementById("lbNext").click();
+  });
+
+  // ---- start: static snapshot ----
+  docs = [{"id": "r00", "data": {"address": "23354 Crest Forest Dr", "area": "Crestline, CA 92325", "banners": [], "inGuide": true, "installDate": "", "landmark": "By Apt #6", "lat": 34.239351, "lng": -117.293656, "notes": "Brackets were present in the Aug 8 photo.\nNotebook: no banner, 1 set of hardware.", "num": "1", "order": 1, "orderDate": "", "photos": [{"file": "IMG_6157", "id": "702f0e58a2fe15052dd8cfcbf48dbb7d", "taken": "Aug 8, 2026"}, {"file": "IMG_6158", "id": "7d56de4834881ddf340bd3aa7bdf0c84", "taken": "Aug 8, 2026"}], "pinLabel": "23354 Crest Forest Dr, Crestline, CA 92325"}}, {"id": "r01", "data": {"address": "23385 Crest Forest Dr", "area": "Crestline, CA 92325", "banners": [], "inGuide": true, "installDate": "", "landmark": "Jim's Auto Service", "lat": 34.239087, "lng": -117.29323, "notes": "Brackets were present in the Aug 8 photo.\nNotebook: 1 hardware, no banners.", "num": "2", "order": 2, "orderDate": "", "photos": [{"file": "IMG_6159", "id": "ad98dbc94ecbb4c441d813cba447c47f", "taken": "Aug 8, 2026"}, {"file": "IMG_6160", "id": "7fdd4fc698999c2ee237b348de74af67", "taken": "Aug 8, 2026"}], "pinLabel": "23385 Crest Forest Dr, Crestline, CA 92325"}}, {"id": "r02", "data": {"address": "23396 Crest Forest Dr", "area": "Crestline, CA 92325", "banners": [], "inGuide": true, "installDate": "", "landmark": "Village Dr & Crest Forest Dr", "lat": 34.238846, "lng": -117.292831, "notes": "Brackets were empty in the Aug 8 photo.\nNotebook: 2 hardware, no banners.", "num": "3", "order": 3, "orderDate": "", "photos": [{"file": "IMG_6161", "id": "0f0ac667bc532769dda036eb0c5ae1a3", "taken": "Aug 8, 2026"}, {"file": "IMG_6162", "id": "325da3776d92fc65c7eeebec99eeef62", "taken": "Aug 8, 2026"}], "pinLabel": "23396 Crest Forest Dr, Crestline, CA 92325"}}, {"id": "r03", "data": {"address": "23425 Crest Forest Dr", "area": "Crestline, CA 92325", "banners": [], "inGuide": true, "installDate": "", "lat": 34.238659, "lng": -117.292298, "notes": "Brackets were empty in the Aug 8 photo.\nNotebook: 1 hardware, no banners.", "num": "4", "order": 4, "orderDate": "", "photos": [{"file": "IMG_6163", "id": "a2a95fb6d8a29f99b54d7e71e9f5bd69", "taken": "Aug 8, 2026"}], "pinLabel": "23425 Crest Forest Dr, Crestline, CA 92325"}}, {"id": "r04", "data": {"address": "23450 Crest Forest Dr", "area": "Crestline, CA 92325", "banners": [], "inGuide": true, "installDate": "", "lat": 34.238528, "lng": -117.291862, "notes": "Brackets were empty in the Aug 8 photo.\nNotebook: no hardware, no banner.", "num": "5", "order": 5, "orderDate": "", "photos": [{"file": "IMG_6164", "id": "33155973136dc5b2b0a291d5b6d4d31f", "taken": "Aug 8, 2026"}], "pinLabel": "23450 Crest Forest Dr, Crestline, CA 92325"}}, {"id": "r05", "data": {"address": "23464 Crest Forest Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Marines", "name": "Chasen Upshaw", "star": "gold", "unsure": false}], "inGuide": true, "installDate": "", "lat": 34.238242, "lng": -117.291608, "notes": "Notebook: banner faded.", "num": "6", "order": 6, "orderDate": "", "photos": [{"file": "IMG_6165", "id": "63817494743bfc51f578a69a4b38f671", "taken": "Aug 8, 2026"}], "pinLabel": "23464 Crest Forest Dr, Crestline, CA 92325"}}, {"id": "r06", "data": {"address": "23471 Crest Forest Dr", "area": "Crestline, CA 92325", "banners": [], "inGuide": true, "installDate": "", "landmark": "Linders/Theron corner", "lat": 34.237703, "lng": -117.291255, "notes": "Notebook: no hardware, no banner.", "num": "7", "order": 7, "orderDate": "", "photos": [], "pinLabel": "23471 Crest Forest Dr, Crestline, CA 92325"}}, {"id": "r07", "data": {"address": "23815 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Marines", "name": "Anna Ward", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "landmark": "By the nail salon", "lat": 34.242959, "lng": -117.283582, "notes": "Banner in good shape.", "num": "8", "order": 8, "orderDate": "", "photos": [{"file": "IMG_6166", "id": "f5b4166548f6df96be2e55d6950bdcc6", "taken": "Aug 8, 2026"}, {"file": "IMG_6167", "id": "87833aed9bb02e08758d0935d43c7528", "taken": "Aug 8, 2026"}, {"file": "IMG_6168", "id": "543d9b742b8ff6286fac452ca1a982bd", "taken": "Aug 8, 2026"}], "pinLabel": "23815 Lake Dr, Crestline, CA 92325"}}, {"id": "r08", "data": {"address": "23851 Lake Dr", "area": "Crestline, CA 92325", "banners": [], "inGuide": true, "installDate": "", "lat": 34.243036, "lng": -117.282893, "notes": "no hardware", "num": "9", "order": 9, "orderDate": "", "photos": [], "pinLabel": "23851 Lake Dr, Crestline, CA 92325"}}, {"id": "r09", "data": {"address": "23919 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "National Guard", "name": "Eric Holke", "star": "gold", "unsure": false}, {"branch": "Army", "name": "Jeffrey Roberson", "star": "gold", "unsure": false}], "inGuide": true, "installDate": "", "lat": 34.243076, "lng": -117.281721, "notes": "Banner is in good shape.", "num": "10", "order": 10, "orderDate": "", "photos": [{"file": "IMG_6169", "id": "23503189dd3a09de219d4df0287e0d7c", "taken": "Aug 8, 2026"}], "pinLabel": "23919 Lake Dr, Crestline, CA 92325"}}, {"id": "r10", "data": {"address": "23943 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Army", "name": "Donald Mitchell", "star": "gold", "unsure": false}, {"branch": "Army", "name": "Brandon Krause", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "lat": 34.24313, "lng": -117.280985, "notes": "Notebook: Donald Mitchell faded/cracked; \nBrandon Krause cracked/faded.", "num": "11", "order": 11, "orderDate": "", "photos": [{"file": "IMG_6170", "id": "5ea6af8685ff46ae91329b7ce5d500ed", "taken": "Aug 8, 2026"}, {"file": "IMG_6171", "id": "95c3df138c4dee010c9f6b83a81ce48b", "taken": "Aug 8, 2026"}], "pinLabel": "23943 Lake Dr, Crestline, CA 92325"}}, {"id": "r11", "data": {"address": "23978 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Army", "name": "Benjamin White", "star": "blue", "unsure": false}, {"branch": "Army", "name": "Michael Vig", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "landmark": "Near Linder's Tire", "lat": 34.243799, "lng": -117.280163, "notes": "Banners in good shape", "num": "12", "order": 12, "orderDate": "", "photos": [{"file": "IMG_6173", "id": "bd579cbd71b70eaab7245be53f131555", "taken": "Aug 9, 2026"}], "pinLabel": "23978 Lake Dr, Crestline, CA 92325"}}, {"id": "r12", "data": {"address": "23991 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Air Force", "name": "Madison Newsham", "star": "blue", "unsure": false}, {"branch": "Army", "name": "Shelby Eash", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "landmark": "Pawn Shop", "lat": 34.243426, "lng": -117.280026, "notes": "Banners in good shape", "num": "13", "order": 13, "orderDate": "", "photos": [{"file": "IMG_6174", "id": "9b1c9c9fcb47d4a5f853cc7d29f608c9", "taken": "Aug 9, 2026"}], "pinLabel": "23991 Lake Dr, Crestline, CA 92325"}}, {"id": "r13", "data": {"address": "24004 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "", "name": "Jared Moore", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "landmark": "Bowling Alley", "lat": 34.243447, "lng": -117.279568, "notes": "Jared Moore, 1 hardware, empty. Branch not recorded.", "num": "14", "order": 14, "orderDate": "", "photos": [], "pinLabel": "24004 Lake Dr, Crestline, CA 92325"}}, {"id": "r14", "data": {"address": "24010 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Army", "name": "Ian Phillips", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "lat": 34.243564, "lng": -117.279204, "notes": "white ink running/cracks;", "num": "15", "order": 15, "orderDate": "", "photos": [{"file": "IMG_6175", "id": "248f9ffc34d5cb1d23c596ad340ad5f4", "taken": "Aug 9, 2026"}], "pinLabel": "24010 Lake Dr, Crestline, CA 92325"}}, {"id": "r15", "data": {"address": "24060 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Navy", "name": "Andrew Newman", "star": "blue", "unsure": false}, {"branch": "Air Force", "name": "Adrianne Ketelsen", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "landmark": "McDonalds", "lat": 34.243735, "lng": -117.278097, "notes": "Banners in good shape", "num": "16", "order": 16, "orderDate": "", "photos": [{"file": "IMG_6176", "id": "a4daac36b364c5241c93dba136a7f507", "taken": "Aug 9, 2026"}], "pinLabel": "24060 Lake Dr, Crestline, CA 92325"}}, {"id": "r16", "data": {"address": "24088 Lake Dr", "area": "Crestline, CA 92325", "banners": [{"branch": "Army", "name": "Robert Carrillo", "star": "blue", "unsure": false}, {"branch": "Army", "name": "Sabrina Carrillo", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "lat": 34.243854, "lng": -117.277548, "notes": "Robert — ink cracked; \nSabrina — ink cracked & running.", "num": "17", "order": 17, "orderDate": "", "photos": [{"file": "IMG_6177", "id": "d305496d6cd02cbe391e48a057f25e28", "taken": "Aug 9, 2026"}, {"file": "IMG_6178", "id": "2a7f4774d274beeebbd10955ba169782", "taken": "Aug 9, 2026"}, {"file": "IMG_6179", "id": "883d8994531a07f9d9c65612ea81b773", "taken": "Aug 9, 2026"}], "pinLabel": "24088 Lake Dr, Crestline, CA 92325"}}, {"id": "r17", "data": {"address": "25997 CA-189", "area": "Twin Peaks, CA 92391", "banners": [{"branch": "Coast Guard", "name": "David Donnelly", "star": "blue", "unsure": false}], "inGuide": true, "installDate": "", "lat": 34.237726, "lng": -117.235978, "notes": "Banner is in good shape", "num": "18", "order": 18, "orderDate": "", "photos": [{"file": "IMG_6182", "id": "6d3fefb22d64818c08f190b1a4d8a24d", "taken": "Aug 9, 2026"}, {"file": "IMG_6183", "id": "2653739c8ebecf16dc731909525dde1a", "taken": "Aug 9, 2026"}, {"file": "IMG_6184", "id": "0ad975adcac7df29e09e3a78e24defde", "taken": "Aug 9, 2026"}], "pinLabel": "25997 CA-189, Twin Peaks, CA 92391"}}, {"id": "r18", "data": {"address": "Near 25997 CA-189", "area": "Twin Peaks, CA 92391", "banners": [{"branch": "Army", "name": "Christian Tulleners", "star": "blue", "unsure": false}], "inGuide": false, "installDate": "", "landmark": "Across from Sherrif Station", "lat": 34.238342, "lng": -117.235814, "notes": "Banner rolling on sides", "num": "19", "order": 19, "orderDate": "", "photos": [{"file": "IMG_6185", "id": "88d5fc96624cc39b316224983455055a", "taken": "Aug 9, 2026"}, {"file": "IMG_6186", "id": "c46b105bf181850dea72a20fdc88d543", "taken": "Aug 9, 2026"}], "pinLabel": "Hometown Hero banner, Twin Peaks, CA 92391"}}, {"id": "r19", "data": {"address": "Near 25997 CA-189", "area": "Twin Peaks, CA 92391", "banners": [{"branch": "Air Force", "name": "Alexander Garland", "star": "blue", "unsure": false}], "inGuide": false, "installDate": "", "lat": 34.239205, "lng": -117.23523, "notes": "Banner is in good shape", "num": "20", "order": 20, "orderDate": "", "photos": [{"file": "IMG_6181", "id": "3faa0da746195c4f2f65c32c13c193ed", "taken": "Aug 9, 2026"}], "pinLabel": "Hometown Hero banner, Twin Peaks, CA 92391"}}];
+  canWrite = false;
+  render();
+})();
+</script>
+
+</body>
+</html>
